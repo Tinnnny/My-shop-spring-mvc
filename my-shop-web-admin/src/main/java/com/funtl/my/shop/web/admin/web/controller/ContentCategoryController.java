@@ -2,8 +2,11 @@ package com.funtl.my.shop.web.admin.web.controller;
 
 import com.funtl.my.shop.commons.dto.BaseResult;
 
+import com.funtl.my.shop.commons.persistence.BaseEntity;
 import com.funtl.my.shop.domain.TbContentCategory;
+import com.funtl.my.shop.web.admin.abstracts.AbstractBaseTreeController;
 import com.funtl.my.shop.web.admin.service.TbContentCategoryService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,17 +24,16 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "content/category")
-public class ContentCategoryController {
+public class ContentCategoryController extends AbstractBaseTreeController<TbContentCategory, TbContentCategoryService> {
 
-    @Autowired
-    private TbContentCategoryService tbContentCategoryService;
+
 
     @ModelAttribute
     public TbContentCategory getTbContentCategory(Long id) {
         TbContentCategory tbContentCategory = null;
         //id不为空
         if (id != null) {
-            tbContentCategory = tbContentCategoryService.getById(id);
+            tbContentCategory = service.getById(id);
 
         } else {
             tbContentCategory = new TbContentCategory();
@@ -46,9 +48,10 @@ public class ContentCategoryController {
      * @param tbContentCategory
      * @return
      */
+    @Override
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(TbContentCategory tbContentCategory, Model model, RedirectAttributes redirectAttributes) {
-        BaseResult baseResult = tbContentCategoryService.save(tbContentCategory);
+        BaseResult baseResult = service.save(tbContentCategory);
         //保存成功
         if (baseResult.getStatus() == 200) {
 
@@ -63,11 +66,11 @@ public class ContentCategoryController {
 
     }
 
-
+    @Override
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(Model model) {
         List<TbContentCategory> targetList = new ArrayList<>();
-        List<TbContentCategory> sourceList = tbContentCategoryService.selectAll();
+        List<TbContentCategory> sourceList = service.selectAll();
 
         //排序
 
@@ -77,53 +80,49 @@ public class ContentCategoryController {
         return "content_category_list";
     }
 
-    /**
-     * 排序
-     * @param sourceList 数据源集合
-     * @param targetList 排序后的集合
-     * @param parentId 父节点的id
-     */
-    private void sortList(List<TbContentCategory> sourceList,List<TbContentCategory> targetList,Long parentId) {
-        for (TbContentCategory tbContentCategory:sourceList){
-            if (tbContentCategory.getParent().getId().equals(parentId)){
-                targetList.add(tbContentCategory);
-
-                //判断有没有子节点
-                if (tbContentCategory.getIsParent()) {
-
-                    //这边可以按sourList。for  弹出来
-                    for (TbContentCategory contentCategory : sourceList) {
-                        if (contentCategory.getParent().getId().equals(tbContentCategory.getId())){
-                            sortList(sourceList,targetList,tbContentCategory.getId());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * 树形结构
      * @return
      */
+    @Override
     @ResponseBody
     @RequestMapping(value = "tree/data",method = RequestMethod.POST)
     public List<TbContentCategory> treeData(Long id){
         if (id == null) {
             id=0L;
         }
-        return tbContentCategoryService.selectByPid(id);
+        return service.selectByPid(id);
     }
 
     /**
      * 跳转到表单页
      * @return
      */
+    @Override
     @RequestMapping(value = "form",method = RequestMethod.GET)
     public String form(TbContentCategory tbContentCategory){
         return "content_category_form";
 
     }
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    @ResponseBody
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public BaseResult delete(String ids) {
+        BaseResult baseResult = null;
+        if (StringUtils.isNotBlank(ids)) {
+            service.delete(Long.parseLong(ids));
+            baseResult = BaseResult.success("删除分类及其子类及其全部内容成功");
+        } else {
+            baseResult = BaseResult.fail("删除分类失败");
+        }
 
+        return baseResult;
+    }
 }
