@@ -12,6 +12,7 @@ import com.funtl.my.shop.web.admin.service.TbContentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class TbContentServiceImpl extends AbstractBaseServiceImpl<TbContent ,TbC
 
 
     @Override
+    @Transactional(readOnly = false)
     public BaseResult save(TbContent tbContent) {
         String validator = BeanValidator.validator(tbContent);
         //验证不通过

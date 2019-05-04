@@ -7,16 +7,19 @@ import com.funtl.my.shop.web.admin.abstracts.AbstractBaseTreeServiceImpl;
 import com.funtl.my.shop.web.admin.dao.TbContentCategoryDao;
 import com.funtl.my.shop.web.admin.service.TbContentCategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 
 //第二个实现是为了注入，因为在ContentCategoryController里的service只有接口没有实现，所以这里要实现一下
 @Service
+@Transactional(readOnly = true)
 public class TbContentCategoryServiceImpl extends AbstractBaseTreeServiceImpl <TbContentCategory,TbContentCategoryDao> implements TbContentCategoryService{
 
-
+        //意思就是这个方法有事务，不是只读
     @Override
+    @Transactional(readOnly = false)
     public BaseResult save(TbContentCategory entity) {
         String validator = BeanValidator.validator(entity);
         //验证不通过

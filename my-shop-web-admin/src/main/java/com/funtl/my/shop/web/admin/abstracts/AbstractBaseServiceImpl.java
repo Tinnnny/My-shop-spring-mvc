@@ -6,6 +6,7 @@ import com.funtl.my.shop.commons.persistence.BaseEntity;
 import com.funtl.my.shop.commons.persistence.BaseService;
 import com.funtl.my.shop.domain.TbContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +28,11 @@ public abstract class AbstractBaseServiceImpl<T extends BaseEntity,D extends Bas
 
     /**
      * 删除
-     *
+     *谁要操作数据库就要有事务
      * @param id
      */
     @Override
+    @Transactional(readOnly = false)
     public void delete(Long id) {
         dao.delete(id);
     }
@@ -49,6 +51,7 @@ public abstract class AbstractBaseServiceImpl<T extends BaseEntity,D extends Bas
      *
      * @param entity
      */
+    @Transactional(readOnly = false)
     public void update(T entity) {
         dao.update(entity);
     }
@@ -58,6 +61,7 @@ public abstract class AbstractBaseServiceImpl<T extends BaseEntity,D extends Bas
      *
      * @param ids
      */
+    @Transactional(readOnly = false)
     public void deleteMulti(String ids[]){
         dao.deleteMulti(ids);
     }

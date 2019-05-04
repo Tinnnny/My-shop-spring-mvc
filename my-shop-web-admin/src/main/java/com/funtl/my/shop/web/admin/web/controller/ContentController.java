@@ -26,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ContentController {
 
 
-
-
     @Autowired
     private TbContentService tbContentService;
 
@@ -146,14 +144,6 @@ public class ContentController {
     public String detail(TbContent tbContent) {
         return "content_detail";
     }
-
-
-
-
-
-
-
-
 
 
 }

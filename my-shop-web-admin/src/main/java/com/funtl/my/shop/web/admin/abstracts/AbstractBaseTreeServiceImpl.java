@@ -4,6 +4,7 @@ import com.funtl.my.shop.commons.persistence.BaseEntity;
 import com.funtl.my.shop.commons.persistence.BaseTreeDao;
 import com.funtl.my.shop.commons.persistence.BaseTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public abstract class AbstractBaseTreeServiceImpl<T extends BaseEntity, D extend
      * @param id
      */
     @Override
+    @Transactional(readOnly = false)
     public void delete(Long id) {
         dao.delete(id);
     }
@@ -47,6 +49,7 @@ public abstract class AbstractBaseTreeServiceImpl<T extends BaseEntity, D extend
      *
      * @param entity
      */
+    @Transactional(readOnly = false)
     public void update(T entity) {
         dao.update(entity);
     }

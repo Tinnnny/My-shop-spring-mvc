@@ -47,6 +47,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.17.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.17.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.17.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.3.17.RELEASE" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.9" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.2.8" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.17.RELEASE" />
