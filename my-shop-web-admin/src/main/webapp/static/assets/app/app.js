@@ -7,7 +7,7 @@ var App = function () {
     var _idArray;
 
     //默认的dropzong参数
-    var defaultDropzoneOpts={
+    var defaultDropzoneOpts = {
         url: "",
         maxFiles: 1,// 一次性上传的文件数量上限
         maxFilesize: 2, // 文件大小，单位：MB
@@ -15,7 +15,7 @@ var App = function () {
         addRemoveLinks: true,
         parallelUploads: 1,// 一次上传的文件数量
         dictDefaultMessage: '拖动文件至此或者点击上传',
-        dictMaxFilesExceeded: "您最多只能上传"+ this.maxFiles +"个文件！",
+        dictMaxFilesExceeded: "您最多只能上传" + this.maxFiles + "个文件！",
         dictResponseError: '文件上传失败!',
         dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg。",
         dictFallbackMessage: "浏览器不受支持",
@@ -57,83 +57,6 @@ var App = function () {
         });
     };
 
-    /**
-     * 批量删除
-     */
-    var handlerDeleteMulti = function (url) {
-        _idArray = new Array();
-        //将选中元素的id放入数组中
-        _checkbox.each(function () {
-            var _id = $(this).attr("id");
-            if (_id != null && _id != "undefine" && $(this).is(":checked")) {
-                _idArray.push(_id);
-            }
-        });
-
-        //判断用户是否选择了数据项
-        if (_idArray.length === 0) {
-            $("#modal-message").html("您还没有选择任何数据项，请至少选择一项！");
-        } else {
-            $("#modal-message").html("您确定删除数据项吗？");
-        }
-
-        //点击删除按钮时弹出模态框
-        $("#modal-default").modal("show");
-
-        //如果选择了模态框就进行删除操作
-        $("#btnModalOk").bind("click", function () {
-            del();
-        });
-
-        /**
-         * 当前私有函数的私有函数,删除数据
-         */
-        function del() {
-
-            //如果没有选择项的处理
-            if (_idArray.length === 0) {
-                $("#modal-default").modal("hide");
-            }
-
-            //删除操作
-            else {
-                setTimeout(function () {
-                    $.ajax({
-                        "url": url,
-                        "type": "POST",
-                        "data": {"ids": _idArray.toString()},
-                        "dataType": "JSON",
-                        "success": function (data) {
-                            //请求成功后，无论成功或是失败都需要弹出模态框，进行提示，解绑click事件
-                            $("#btnModalOk").unbind("click");
-
-                            //请求成功
-                            if (data.status === 200) {
-                                //刷新页面
-                                $("#btnModalOk").bind("click", function () {
-                                    window.location.reload();
-                                });
-                            }
-
-                            //删除失败
-                            else {
-                                //确定按钮的事件改为隐藏模态框
-                                $("#btnModalOk").bind("click", function () {
-                                    $("#modal-default").modal("hide");
-                                });
-                            }
-
-                            //因为无论如何都需要提示信息，所以这里的模态框是必须的
-                            $("#modal-message").html(data.message);
-                            $("#modal-default").modal("show");
-                        }
-                    });
-                }, 500);
-
-            }
-        }
-
-    };
 
     /**
      * 初始化dataTables
@@ -204,7 +127,7 @@ var App = function () {
     /**
      * 树状列表
      */
-    var handlerInitZtree=function (url,autoParam,callback) {
+    var handlerInitZtree = function (url, autoParam, callback) {
         var setting = {
             view: {
                 selectedMulti: false
@@ -212,13 +135,13 @@ var App = function () {
 
             async: {
                 enable: true,
-                url:url,
-                autoParam:autoParam,
+                url: url,
+                autoParam: autoParam,
             }
         };
         $.fn.zTree.init($("#myTree"), setting);
 
-        $("#btnModalOk").bind("click",function () {
+        $("#btnModalOk").bind("click", function () {
             var zTree = $.fn.zTree.getZTreeObj("myTree");
             var nodes = zTree.getSelectedNodes();
 
@@ -227,7 +150,7 @@ var App = function () {
                 alert("请选择一个节点");
             }
             //选择
-            else{
+            else {
                 callback(nodes);
             }
         })
@@ -237,14 +160,106 @@ var App = function () {
      * 初始化dropzone
      * @param opts
      */
-    var handlerInitDropzone=function (opts) {
+    var handlerInitDropzone = function (opts) {
         //关闭dropzone的自动发现功能
-        Dropzone.autoDiscover=false;
+        Dropzone.autoDiscover = false;
         // 继承
-        $.extend(defaultDropzoneOpts,opts);
-        new Dropzone(defaultDropzoneOpts.id,defaultDropzoneOpts);
+        $.extend(defaultDropzoneOpts, opts);
+        new Dropzone(defaultDropzoneOpts.id, defaultDropzoneOpts);
     };
 
+    /**
+     * 批量删除
+     */
+    var handlerDeleteMulti = function (url) {
+        _idArray = new Array();
+        //将选中元素的id放入数组中
+        _checkbox.each(function () {
+            var _id = $(this).attr("id");
+            if (_id != null && _id != "undefine" && $(this).is(":checked")) {
+                _idArray.push(_id);
+            }
+        });
+
+        //判断用户是否选择了数据项
+        if (_idArray.length === 0) {
+            $("#modal-message").html("您还没有选择任何数据项，请至少选择一项！");
+        } else {
+            $("#modal-message").html("您确定删除数据项吗？");
+        }
+
+        //点击删除按钮时弹出模态框
+        $("#modal-default").modal("show");
+
+        //如果选择了模态框就进行删除操作
+        $("#btnModalOk").bind("click", function () {
+            handlerDeleteData(url);
+        });
+    };
+
+
+
+    /**
+     * 删除单笔数据
+     */
+    var handlerDeleteSingle = function (url, id, msg) {
+
+        //可选参数
+        if (!msg) msg = null;
+        //将id放入数组中，以便和批量删除通用
+        _idArray = new Array();
+        _idArray.push(id);
+
+        $("#modal-message").html(msg == null ? "您确定删除数据吗？" : msg);
+        $("#modal-default").modal("show");
+        //绑定删除事件
+        $("#btnModalOk").bind("click", function () {
+            handlerDeleteData(url);
+        });
+    };
+
+    /**
+     * ajax异步删除
+     * @param url
+     */
+    var handlerDeleteData = function (url) {
+        $("#modal-default").modal("hide");
+        if (_idArray.length > 0) {
+            setTimeout(function () {
+                $.ajax({
+                    "url": url,
+                    "type": "POST",
+                    "data": {"ids": _idArray.toString()},
+                    "dataType": "JSON",
+                    "success": function (data) {
+                        //请求成功后，无论成功或是失败都需要弹出模态框，进行提示，解绑click事件
+                        $("#btnModalOk").unbind("click");
+
+                        //请求成功
+                        if (data.status === 200) {
+                            //刷新页面
+                            $("#btnModalOk").bind("click", function () {
+                                window.location.reload();
+                            });
+                        }
+
+                        //删除失败
+                        else {
+                            //确定按钮的事件改为隐藏模态框
+                            $("#btnModalOk").bind("click", function () {
+                                $("#modal-default").modal("hide");
+                            });
+                        }
+
+                        //因为无论如何都需要提示信息，所以这里的模态框是必须的
+                        $("#modal-message").html(data.message);
+                        $("#modal-default").modal("show");
+                    }
+                });
+            }, 500);
+
+        }
+    };
 
     return {
         init: function () {
@@ -256,6 +271,10 @@ var App = function () {
 
         getCheckbox: function () {
             return _checkbox;
+        },
+
+        deleteSingle: function (url, id, msg) {
+            handlerDeleteSingle(url, id, msg);
         },
 
         deleteMulti: function (url) {
@@ -277,7 +296,7 @@ var App = function () {
          * 初始化dropzone
          * @param opts
          */
-        initDropzone: function(opts){
+        initDropzone: function (opts) {
             handlerInitDropzone(opts);
         },
 
@@ -287,7 +306,7 @@ var App = function () {
          * @param autoParam
          * @param callback
          */
-        initZtree: function (url,autoParam,callback) {
+        initZtree: function (url, autoParam, callback) {
             handlerInitZtree(url, autoParam, callback);
 
 

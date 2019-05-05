@@ -4,6 +4,7 @@ package com.funtl.my.shop.web.admin.web.controller;
 import com.funtl.my.shop.commons.dto.BaseResult;
 import com.funtl.my.shop.commons.dto.PageInfo;
 import com.funtl.my.shop.domain.TbContent;
+import com.funtl.my.shop.web.admin.abstracts.AbstractBaseController;
 import com.funtl.my.shop.web.admin.service.TbContentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "content")
-public class ContentController {
-
-
-    @Autowired
-    private TbContentService tbContentService;
+public class ContentController extends AbstractBaseController<TbContent,TbContentService> {
 
 
     @ModelAttribute
@@ -35,7 +32,7 @@ public class ContentController {
         TbContent tbContent = null;
         //id不为空
         if (id != null) {
-            tbContent = tbContentService.getById(id);
+            tbContent = service.getById(id);
 
         } else {
             tbContent = new TbContent();
@@ -75,7 +72,7 @@ public class ContentController {
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(TbContent tbContent, Model model, RedirectAttributes redirectAttributes) {
-        BaseResult baseResult = tbContentService.save(tbContent);
+        BaseResult baseResult = service.save(tbContent);
         //保存成功
         if (baseResult.getStatus() == 200) {
 
@@ -103,35 +100,13 @@ public class ContentController {
 
         if (StringUtils.isNotBlank(ids)) {
             String[] idArray = ids.split(",");
-            tbContentService.deleteMulti(idArray);
+            service.deleteMulti(idArray);
             baseResult = BaseResult.success("删除内容成功");
         } else {
             baseResult = BaseResult.fail("删除内容失败");
         }
 
         return baseResult;
-    }
-
-    /**
-     * 分页查询
-     *
-     * @param request
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "page", method = RequestMethod.GET)
-    public PageInfo<TbContent> page(HttpServletRequest request, TbContent tbContent) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 0 : Integer.parseInt(strLength);
-        //封装datatables需要的结果
-        PageInfo<TbContent> pageInfo = tbContentService.page(start, length, draw,tbContent);
-
-
-        return pageInfo;
     }
 
     /**

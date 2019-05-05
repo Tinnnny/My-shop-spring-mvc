@@ -67,7 +67,7 @@
                                         <td>${tbContentCategory.sortOrder}</td>
                                         <td>
                                             <a href="/content/category/form?id=${tbContentCategory.id}" type="button"  class="btn btn-sm  btn-success"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;&nbsp;
-                                            <button href="#" type="button" id="' + row.id + '" class="btn btn-sm  btn-danger" ><i class="fa fa-trash-o"></i>删除</button>&nbsp;&nbsp;&nbsp;
+                                            <button type="button"  class="btn btn-sm  btn-danger" onclick="App.deleteSingle('/content/category/delete','${tbContentCategory.id}','警告：该删除操作会将包括选中类目的全部子类目及属于类目的内容一并删除，请谨慎操作！您还确定要删除吗？')"><i class="fa fa-trash-o"></i>删除</button>&nbsp;&nbsp;&nbsp;
                                             <%--//把列表页里的值带回后台，再传回到表单页----传到了form方法，因为这里显示的和编辑里的不同，所以用了一点小技巧，覆盖了modelattribute里的内容--%>
                                             <a href="/content/category/form?parent.id=${tbContentCategory.id}&parent.name=${tbContentCategory.name}" type="button"  class="btn btn-sm  btn-default"><i class="fa fa-plus"></i>新增下级菜单</a>&nbsp;&nbsp;&nbsp;
                                         </td>

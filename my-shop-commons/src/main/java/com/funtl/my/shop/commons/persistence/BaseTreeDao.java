@@ -23,9 +23,9 @@ public interface BaseTreeDao <T extends BaseEntity>{
     /**
      * 删除
      *
-     * @param id
+     * @param  ids
      */
-    void delete(long id);
+    void delete(String[] ids);
 
     /**
      * 根据id查询信息
