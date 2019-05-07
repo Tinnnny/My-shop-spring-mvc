@@ -30,25 +30,23 @@ public class TbContentController {
     }
 
     /**
-     * 根据类别id查询内容列表
-     * @param categoryId
+     * 幻灯片接口
      * @return
      */
-    @RequestMapping(value = "{category_id}",method = RequestMethod.GET)
-    public BaseResult findContentByCategoryId(@PathVariable(value = "category_id")  Long categoryId){
-        List<TbContentDTO> tbContentDTOS=null;
-        List<TbContent> tbContents = tbContentService.selectByCategoryId(categoryId);
-        if (tbContents != null && tbContents.size()>0){
+    @RequestMapping(value = "ppt", method = RequestMethod.GET)
+    public BaseResult findPPT() {
+        List<TbContentDTO> tbContentDTOS = null;
+        List<TbContent> tbContents = tbContentService.selectByCategoryId(89L);
+
+        if (tbContents != null && tbContents.size() > 0) {
             tbContentDTOS = new ArrayList<>();
             for (TbContent tbContent : tbContents) {
-                TbContentDTO dto=new TbContentDTO();
-                //反射工具类
+                TbContentDTO dto = new TbContentDTO();
                 BeanUtils.copyProperties(tbContent, dto);
                 tbContentDTOS.add(dto);
             }
         }
 
-
-        return BaseResult.success("成功",tbContentDTOS);
+        return BaseResult.success("成功", tbContentDTOS);
     }
 }
