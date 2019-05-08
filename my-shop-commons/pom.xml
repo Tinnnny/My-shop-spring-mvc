@@ -81,6 +81,10 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+        </dependency>
         <!-- Servlet Begin -->
         <dependency>
             <groupId>javax.servlet</groupId>

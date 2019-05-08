@@ -10,6 +10,7 @@
         <module name="my-shop-domain" />
         <module name="my-shop-web-admin" />
         <module name="my-shop-web-api" />
+        <module name="my-shop-web-external" />
         <module name="my-shop-web-ui" />
       </profile>
     </annotationProcessing>
@@ -20,6 +21,7 @@
       <module name="my-shop-domain" target="1.8" />
       <module name="my-shop-web-admin" target="1.8" />
       <module name="my-shop-web-api" target="1.8" />
+      <module name="my-shop-web-external" target="1.8" />
       <module name="my-shop-web-ui" target="1.8" />
     </bytecodeTargetLevel>
   </component>

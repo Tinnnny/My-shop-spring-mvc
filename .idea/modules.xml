@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/my-shop-domain/my-shop-domain.iml" filepath="$PROJECT_DIR$/my-shop-domain/my-shop-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/my-shop-web-admin/my-shop-web-admin.iml" filepath="$PROJECT_DIR$/my-shop-web-admin/my-shop-web-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/my-shop-web-api/my-shop-web-api.iml" filepath="$PROJECT_DIR$/my-shop-web-api/my-shop-web-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-shop-external/my-shop-web-external.iml" filepath="$PROJECT_DIR$/my-shop-external/my-shop-web-external.iml" />
       <module fileurl="file://$PROJECT_DIR$/my-shop-web-ui/my-shop-web-ui.iml" filepath="$PROJECT_DIR$/my-shop-web-ui/my-shop-web-ui.iml" />
     </modules>
   </component>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -26,16 +27,16 @@
     <div class="ger_zhuc_beij">
         <div class="ger_zhuc_biaot">
             <ul>
-                <li class="ger_border_color"><a href="register.jsp">个人注册</a></li>
+                <li class="ger_border_color"><a href="/register">个人注册</a></li>
                 <i>丨</i>
                 <li><a href="shenq_ruz.html">申请入驻</a></li>
-                <p>我已经注册，现在就<a class="ftx-05 ml10" href="login.jsp">登录</a></p>
+                <p>我已经注册，现在就<a class="ftx-05 ml10" href="/login">登录</a></p>
             </ul>
         </div>
         <div class="zhuc_biaod">
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name">用户名：</label>
+                	<label >用户名：</label>
               	</span>
                 <input   class="i-text" type="text">
                 <!--备注————display使用 inline-block-->
@@ -51,7 +52,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name">设置密码：</label>
+                	<label >设置密码：</label>
               	</span>
                 <input   class="i-text" type="text">
                 <!--备注————display使用 inline-block-->
@@ -66,7 +67,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name">确认密码：</label>
+                	<label >确认密码：</label>
               	</span>
                 <input   class="i-text" type="text" disabled="disabled">
                 <!--备注————display使用 inline-block-->
@@ -76,7 +77,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name">手机号码：</label>
+                	<label >手机号码：</label>
               	</span>
                 <input   class="i-text" type="text">
                 <!--备注————display使用 inline-block-->
@@ -86,7 +87,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name">手机号码：</label>
+                	<label >手机号码：</label>
               	</span>
                 <input   class="i-text i-short" type="text">
                 <div class="check check-border" style="position:relative;left:0">
@@ -101,7 +102,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name"> </label>
+                	<label > </label>
               	</span>
                 <div class="dag_biaod">
                     <input type="checkbox" value="english" >
@@ -112,7 +113,7 @@
             </div>
             <div class="reg-items" >
               	<span class="reg-label">
-                	<label for="J_Name"> </label>
+                	<label > </label>
               	</span>
                 <input class="reg-btn" value="立即注册" type="button">
             </div>

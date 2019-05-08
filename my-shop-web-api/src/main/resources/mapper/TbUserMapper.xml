@@ -11,9 +11,10 @@
           a.created,
           a.updated
     </sql>
+
     <select id="login" resultType="TbUser">
         SELECT
-        <include refid="tbUserColumns"/>
+        <include refid="tbUserColumns" />
         FROM
         tb_user AS a
         WHERE username = #{username}

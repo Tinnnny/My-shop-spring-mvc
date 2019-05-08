@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>My-shop - 首页</title>
@@ -63,7 +64,16 @@
             </li>
         </ul>
         <ul class="header-right">
-            <li class="denglu">Hi~<a class="red" href="login.jsp">请登录!</a> <a href="register.jsp">[免费注册]</a></li>
+            <c:if test="${tbUser!=null}">
+                <li class="denglu">Hi~${tbUser.username} 欢迎回来 <a class="red" href="/logout">[注销]</a></li>
+            </c:if>
+
+            <c:if test="${tbUser==null}">
+                <li class="denglu">Hi~<a class="red" href="/login">请登录!</a> <a href="/register">[免费注册]</a></li>
+            </c:if>
+
+
+            
             <li class="shu"></li>
             <li class="denglu"><a class="ing_ps" href="#">我的收藏</a></li>
             <li class="shu"></li>
